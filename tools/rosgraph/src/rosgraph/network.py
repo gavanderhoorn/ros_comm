@@ -210,7 +210,11 @@ def get_local_addresses():
     local_addrs = None
     if _is_unix_like_platform():
         # unix-only branch
-        v4addrs = []
+        v4addrs = ['127.0.0.1']
+        if ROS_IP in os.environ:
+          v4addrs.append(os.environ[ROS_IP])
+        return v4addrs
+
         v6addrs = []
         import netifaces
         for iface in netifaces.interfaces():
